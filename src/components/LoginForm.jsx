@@ -19,8 +19,6 @@ class LoginForm extends Form {
   };
 
   render() {
-    const { data, errors } = this.state;
-
     return (
       <form onSubmit={this.handleSubmit} className="container mt-2">
         {this.renderInput("username", "Username")}

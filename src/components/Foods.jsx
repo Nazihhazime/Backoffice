@@ -80,7 +80,7 @@ class Foods extends Component {
             <Link to="/new" className="btn btn-primary mb-3">
               New Food
             </Link>
-            {console.log(getFoods())}
+
             <p>Showing {filteredCount} foods in the database</p>
             <FoodsTable
               foods={foods}

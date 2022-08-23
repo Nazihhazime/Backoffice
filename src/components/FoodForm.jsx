@@ -39,7 +39,6 @@ class FoodForm extends Form {
 
     const food_Id = this.props.match.params.id;
     const food = getFood(food_Id);
-    console.log(food);
 
     if (food_Id) {
       if (!food) this.props.history.replace("/not-found");
@@ -47,11 +46,11 @@ class FoodForm extends Form {
   }
 
   schema = Joi.object({
-    _id: Joi.string().min(2),
+    _id: Joi.string(),
     name: Joi.string().required().min(2).label("Name"),
     category: Joi.string().required().label("Category"),
     numberInStock: Joi.number().required().min(0).max(100).label("Stock"),
-    price: Joi.number().required().min(0).max(100).label("Price"),
+    price: Joi.number().required().min(0).max(10).label("Price"),
   });
 
   doSubmit = () => {
