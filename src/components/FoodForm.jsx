@@ -1,7 +1,7 @@
 import Joi from "joi";
 import React, { Component } from "react";
 import Form from "./Common/Form";
-import { saveFood } from "../Services/fakeFoodService";
+import { getFood, saveFood } from "../Services/fakeFoodService";
 import { getCategories } from "../Services/fakeCategoryService";
 
 class FoodForm extends Form {
@@ -14,6 +14,14 @@ class FoodForm extends Form {
   componentDidMount() {
     const categories = getCategories();
     this.setState({ categories });
+
+    const foodId = this.props.match.params.id;
+    if (foodId === "new") return;
+
+    const food = getFood(foodId);
+    if (!food) this.props.history.replace("/not-found");
+
+    this.setState({ data: food });
   }
 
   doSubmit = () => {
