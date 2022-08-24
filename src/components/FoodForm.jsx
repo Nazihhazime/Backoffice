@@ -1,12 +1,12 @@
 import Joi from "joi";
 import React, { Component } from "react";
 import Form from "./Common/Form";
-import Select from "./Common/Select";
+import { saveFood } from "../Services/fakeFoodService";
 import { getCategories } from "../Services/fakeCategoryService";
 
 class FoodForm extends Form {
   state = {
-    data: { name: "", category: "", numberInStock: "", price: "" },
+    data: { name: "", categoryId: "", numberInStock: "", price: "" },
     errors: {},
     categories: [],
   };
@@ -16,21 +16,24 @@ class FoodForm extends Form {
     this.setState({ categories });
   }
 
+  doSubmit = () => {
+    saveFood(this.state.data);
+    this.props.history.push("/foods");
+  };
+
   schema = Joi.object({
-    name: Joi.string().required(),
-    numberInStock: Joi.number().required().min(0).max(100),
-    price: Joi.number().required().min(0).max(10),
+    name: Joi.string().required().label("Name"),
+    categoryId: Joi.string().required().label("Category"),
+    numberInStock: Joi.number().required().min(0).max(100).label("Stock"),
+    price: Joi.number().required().min(0).max(10).label("Price"),
   });
 
   render() {
+    console.log("data", this.state.data);
     return (
       <form className="container" onSubmit={this.handleSubmit}>
         {this.renderInput("name", "Name")}
-        <Select
-          name={"category"}
-          label={"Category"}
-          options={this.state.categories}
-        />
+        {this.renderSelect("categoryId", "Category", this.state.categories)}
         {this.renderInput("numberInStock", "Stock")}
         {this.renderInput("price", "Price ")}
         {this.renderButton("Save")}

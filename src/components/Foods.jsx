@@ -77,7 +77,7 @@ class Foods extends Component {
             />
           </div>
           <div className="col">
-            <Link to="/new" className="btn btn-primary mb-3">
+            <Link to="foods/new" className="btn btn-primary mb-3">
               New Food
             </Link>
 
