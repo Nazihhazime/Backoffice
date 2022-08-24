@@ -15,12 +15,9 @@ class App extends Component {
       <>
         <NavBar />
         <Switch>
-          <Route
-            path="/foods/:id/:name/:category/:numberInStock/:price"
-            component={FoodForm}
-          />
+          <Route path="/foods/:id/" component={FoodForm} />
           <Route path="/foodform" component={FoodForm} />
-          <Route path="/new" component={FoodForm} />
+          <Route path="foods/new" component={FoodForm} />
           <Route path="/foods" component={Foods} />
           <Route path="/customers" component={Customers} />
           <Route path="/orders" component={Orders} />

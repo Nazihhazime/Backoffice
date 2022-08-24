@@ -1,24 +1,12 @@
-import React from "react";
-import _ from "lodash";
-import {
-  getFoods,
-  saveFood,
-  deleteFood,
-  getFood,
-} from "../Services/fakeFoodService";
-import { getCategories } from "../Services/fakeCategoryService";
 import Joi from "joi";
+import React, { Component } from "react";
 import Form from "./Common/Form";
+import Select from "./Common/Select";
+import { getCategories } from "../Services/fakeCategoryService";
 
 class FoodForm extends Form {
   state = {
-    data: {
-      _id: "",
-      name: "",
-      category: "",
-      numberInStock: "",
-      price: "",
-    },
+    data: { name: "", category: "", numberInStock: "", price: "" },
     errors: {},
     categories: [],
   };
@@ -26,51 +14,25 @@ class FoodForm extends Form {
   componentDidMount() {
     const categories = getCategories();
     this.setState({ categories });
-
-    const data = {
-      _id: this.props.match.params.id,
-      name: this.props.match.params.name,
-      category: this.props.match.params.category,
-      numberInStock: this.props.match.params.numberInStock,
-      price: this.props.match.params.price,
-    };
-
-    this.setState({ data });
-
-    const food_Id = this.props.match.params.id;
-    const food = getFood(food_Id);
-
-    if (food_Id) {
-      if (!food) this.props.history.replace("/not-found");
-    }
   }
 
   schema = Joi.object({
-    _id: Joi.string(),
-    name: Joi.string().required().min(2).label("Name"),
-    category: Joi.string().required().label("Category"),
-    numberInStock: Joi.number().required().min(0).max(100).label("Stock"),
-    price: Joi.number().required().min(0).max(10).label("Price"),
+    name: Joi.string().required(),
+    numberInStock: Joi.number().required().min(0).max(100),
+    price: Joi.number().required().min(0).max(10),
   });
-
-  doSubmit = () => {
-    if (this.state.data._id) {
-      deleteFood(this.state.data._id);
-      this.setState({ data: saveFood(this.state.data) });
-    } else {
-      saveFood(this.state.data);
-    }
-
-    this.props.history.push("/foods");
-  };
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="container mt-2">
+      <form className="container" onSubmit={this.handleSubmit}>
         {this.renderInput("name", "Name")}
-        {this.renderSelect("category", "Category", this.state.categories)}
-        {this.renderInput("numberInStock", "stock")}
-        {this.renderInput("price", "Price")}
+        <Select
+          name={"category"}
+          label={"Category"}
+          options={this.state.categories}
+        />
+        {this.renderInput("numberInStock", "Stock")}
+        {this.renderInput("price", "Price ")}
         {this.renderButton("Save")}
       </form>
     );

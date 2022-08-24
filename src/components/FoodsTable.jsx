@@ -10,11 +10,7 @@ class FoodsTable extends Component {
       path: "name",
       content: (food) => (
         <div>
-          <Link
-            to={`/foods/${food._id}/${food.name}/${food.category.name}/${food.numberInStock}/${food.price}`}
-          >
-            {food.name}
-          </Link>
+          <Link to={`/foods/${food._id}`}>{food.name}</Link>
         </div>
       ),
     },
