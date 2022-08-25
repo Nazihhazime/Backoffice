@@ -106,7 +106,7 @@ export function saveFood(food) {
   let foodInDb = foods.find((f) => f._id === food._id) || {};
   foodInDb.name = food.name;
   foodInDb.category = getCategories().find(
-    (category) => category.name === food.category
+    (category) => category._id === food.categoryId
   );
   foodInDb.numberInStock = food.numberInStock;
   foodInDb.price = food.price;

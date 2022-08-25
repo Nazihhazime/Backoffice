@@ -12,7 +12,7 @@ function Select({ name, label, error, value, onChange, options }) {
         onChange={onChange}
         className="form-select"
       >
-        <option selected>Open this select menu</option>
+        <option>Open the is select menu</option>
         {options.map((option) => (
           <option key={option._id} value={option._id}>
             {option.name}

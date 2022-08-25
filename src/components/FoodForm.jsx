@@ -6,7 +6,7 @@ import { getCategories } from "../Services/fakeCategoryService";
 
 class FoodForm extends Form {
   state = {
-    data: { name: "", categoryId: "", numberInStock: "", price: "" },
+    data: { _id: "", name: "", categoryId: "", numberInStock: "", price: "" },
     errors: {},
     categories: [],
   };
@@ -21,7 +21,17 @@ class FoodForm extends Form {
     const food = getFood(foodId);
     if (!food) this.props.history.replace("/not-found");
 
-    this.setState({ data: food });
+    this.setState({ data: this.mapToViewModel(food) });
+  }
+
+  mapToViewModel(food) {
+    return {
+      _id: food._id,
+      name: food.name,
+      categoryId: food.category._id,
+      numberInStock: food.numberInStock,
+      price: food.price,
+    };
   }
 
   doSubmit = () => {
@@ -30,6 +40,7 @@ class FoodForm extends Form {
   };
 
   schema = Joi.object({
+    _id: Joi.string().allow(""),
     name: Joi.string().required().label("Name"),
     categoryId: Joi.string().required().label("Category"),
     numberInStock: Joi.number().required().min(0).max(100).label("Stock"),
