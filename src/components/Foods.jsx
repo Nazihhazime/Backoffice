@@ -16,6 +16,7 @@ class Foods extends Component {
     categories: [],
     pageSize: 4,
     selectedPage: 1,
+    searchQuery: "",
     selectedCategory: DEFAULT_CATEGORY,
     sortColumn: { path: "name", order: "asc" },
   };
@@ -24,6 +25,8 @@ class Foods extends Component {
     const categories = [DEFAULT_CATEGORY, ...getCategories()];
     this.setState({ foods: getFoods(), categories });
   }
+
+  handleSearch = (searchQuery) => this.setState({ searchQuery });
 
   getPaginatedFoods() {
     const {
@@ -82,6 +85,7 @@ class Foods extends Component {
             </Link>
 
             <p>Showing {filteredCount} foods in the database</p>
+
             <FoodsTable
               foods={foods}
               onIsFavorite={this.handleIsFavorite}
