@@ -7,6 +7,7 @@ import FoodsTable from "./FoodsTable";
 import Listgroup from "./Common/Listgroup";
 import Pagination from "./Common/Pagination";
 import _ from "lodash";
+import SearchBox from "./Common/SearchBox";
 
 const DEFAULT_CATEGORY = { _id: "", name: "All categories" };
 
@@ -57,6 +58,7 @@ class Foods extends Component {
       categories,
       pageSize,
       sortColumn,
+      searchQuery,
       selectedPage,
       selectedCategory,
       foods: allFoods,
@@ -85,7 +87,7 @@ class Foods extends Component {
             </Link>
 
             <p>Showing {filteredCount} foods in the database</p>
-
+            <SearchBox value={searchQuery} onChange={this.handleSearch} />
             <FoodsTable
               foods={foods}
               onIsFavorite={this.handleIsFavorite}
