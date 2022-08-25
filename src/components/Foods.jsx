@@ -27,20 +27,34 @@ class Foods extends Component {
     this.setState({ foods: getFoods(), categories });
   }
 
-  handleSearch = (searchQuery) => this.setState({ searchQuery });
+  handleSearch = (searchQuery) =>
+    this.setState({ searchQuery, selectedCategory: DEFAULT_CATEGORY });
 
   getPaginatedFoods() {
     const {
       pageSize,
       sortColumn,
       selectedPage,
+      searchQuery,
       selectedCategory,
       foods: allFoods,
     } = this.state;
 
-    const filteredFoods = selectedCategory._id
-      ? allFoods.filter((f) => f.category._id === selectedCategory._id)
-      : allFoods;
+    // const filteredFoods = selectedCategory._id
+    //   ? allFoods.filter((f) => f.category._id === selectedCategory._id)
+    //   : allFoods;
+
+    let filteredFoods = allFoods;
+
+    if (selectedCategory._id) {
+      filteredFoods = allFoods.filter(
+        (f) => f.category._id === selectedCategory._id
+      );
+    } else if (searchQuery) {
+      filteredFoods = allFoods.filter((f) =>
+        f.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
 
     const sortedFoods = _.orderBy(
       filteredFoods,
@@ -114,7 +128,7 @@ class Foods extends Component {
   };
 
   handleItemSelect = (item) =>
-    this.setState({ selectedCategory: item, selectedPage: 1 });
+    this.setState({ selectedCategory: item, selectedPage: 1, searchQuery: "" });
 
   handleDelete = (id) => {
     const foods = this.state.foods.filter((food) => food._id !== id);
