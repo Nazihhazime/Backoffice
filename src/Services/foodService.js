@@ -13,5 +13,10 @@ export function deleteFood(id) {
 }
 
 export function saveFood(food) {
-  return http.post("http://localhost:8000/api/foods", food);
+  const { _id: foodId, ...body } = food;
+
+  if (foodId)
+    return http.put(`http://localhost:8000/api/foods/${foodId}`, body);
+
+  return http.post("http://localhost:8000/api/foods", body);
 }

@@ -55,7 +55,6 @@ class FoodForm extends Form {
   });
 
   render() {
-    console.log("data", this.state.data);
     return (
       <form className="container" onSubmit={this.handleSubmit}>
         {this.renderInput("name", "Name")}

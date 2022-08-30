@@ -129,9 +129,15 @@ class Foods extends Component {
     this.setState({ selectedCategory: item, selectedPage: 1, searchQuery: "" });
 
   handleDelete = async (food) => {
+    const originalFoods = this.state.foods;
+
     const foods = this.state.foods.filter((f) => f._id !== food._id);
     this.setState({ foods });
-    await deleteFood(food._id);
+    try {
+      await deleteFood(food._id);
+    } catch (error) {
+      this.setState({ foods: originalFoods });
+    }
   };
 
   handleIsFavorite = (food) => {
