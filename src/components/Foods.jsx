@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { getFoods, deleteFood } from "../Services/fakeFoodService";
-import { getCategories } from "../Services/fakeCategoryService";
+import { getFoods, deleteFood } from "../Services/foodService";
+import { getCategories } from "../Services/categoryService";
 import { paginate } from "../utils/paginate";
 import FoodsTable from "./FoodsTable";
 import Listgroup from "./Common/Listgroup";
@@ -22,9 +22,11 @@ class Foods extends Component {
     sortColumn: { path: "name", order: "asc" },
   };
 
-  componentDidMount() {
-    const categories = [DEFAULT_CATEGORY, ...getCategories()];
-    this.setState({ foods: getFoods(), categories });
+  async componentDidMount() {
+    const { data } = await getCategories();
+    const categories = [DEFAULT_CATEGORY, ...data];
+    const { data: foods } = await getFoods();
+    this.setState({ foods, categories });
   }
 
   handleSearch = (searchQuery) =>
@@ -39,10 +41,6 @@ class Foods extends Component {
       selectedCategory,
       foods: allFoods,
     } = this.state;
-
-    // const filteredFoods = selectedCategory._id
-    //   ? allFoods.filter((f) => f.category._id === selectedCategory._id)
-    //   : allFoods;
 
     let filteredFoods = allFoods;
 
@@ -130,10 +128,10 @@ class Foods extends Component {
   handleItemSelect = (item) =>
     this.setState({ selectedCategory: item, selectedPage: 1, searchQuery: "" });
 
-  handleDelete = (id) => {
-    const foods = this.state.foods.filter((food) => food._id !== id);
+  handleDelete = async (food) => {
+    const foods = this.state.foods.filter((f) => f._id !== food._id);
     this.setState({ foods });
-    deleteFood(id);
+    await deleteFood(food._id);
   };
 
   handleIsFavorite = (food) => {

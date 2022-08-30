@@ -1,8 +1,8 @@
 import Joi from "joi";
 import React, { Component } from "react";
 import Form from "./Common/Form";
-import { getFood, saveFood } from "../Services/fakeFoodService";
-import { getCategories } from "../Services/fakeCategoryService";
+import { getFood, saveFood } from "../Services/foodService";
+import { getCategories } from "../Services/categoryService";
 
 class FoodForm extends Form {
   state = {
@@ -12,16 +12,23 @@ class FoodForm extends Form {
   };
 
   componentDidMount() {
-    const categories = getCategories();
-    this.setState({ categories });
+    this.populateFood();
+    this.populateCategories();
+  }
 
+  async populateFood() {
     const foodId = this.props.match.params.id;
     if (foodId === "new") return;
 
-    const food = getFood(foodId);
+    const { data: food } = await getFood(foodId);
     if (!food) this.props.history.replace("/not-found");
 
     this.setState({ data: this.mapToViewModel(food) });
+  }
+
+  async populateCategories() {
+    const { data: categories } = await getCategories();
+    this.setState({ categories });
   }
 
   mapToViewModel(food) {

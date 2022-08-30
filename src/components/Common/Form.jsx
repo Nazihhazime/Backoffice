@@ -1,6 +1,6 @@
 import { options } from "joi";
 import React, { Component } from "react";
-import { getFoods } from "../../Services/fakeFoodService";
+import { getFoods } from "../../Services/foodService";
 import Input from "./Input";
 import Select from "./Select";
 

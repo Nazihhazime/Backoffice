@@ -30,7 +30,7 @@ class FoodsTable extends Component {
       key: "delete",
       content: (food) => (
         <button
-          onClick={() => this.props.onDelete(food._id)}
+          onClick={() => this.props.onDelete(food)}
           className="btn btn-danger"
         >
           Delete
