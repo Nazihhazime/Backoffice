@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import auth from "../Services/authService";
 import Favorite from "./Common/Favorite";
 import Table from "./Common/Table";
 
@@ -26,18 +27,26 @@ class FoodsTable extends Component {
         />
       ),
     },
-    {
-      key: "delete",
-      content: (food) => (
-        <button
-          onClick={() => this.props.onDelete(food)}
-          className="btn btn-danger"
-        >
-          Delete
-        </button>
-      ),
-    },
   ];
+
+  constructor() {
+    super();
+
+    const user = auth.getCurrentUser();
+
+    if (user && user.isAdmin)
+      this.columns.push({
+        key: "delete",
+        content: (food) => (
+          <button
+            onClick={() => this.props.onDelete(food)}
+            className="btn btn-danger"
+          >
+            Delete
+          </button>
+        ),
+      });
+  }
 
   render() {
     const { foods, sortColumn, onIsFavorite, onDelete, onSort } = this.props;
