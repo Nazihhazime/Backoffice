@@ -66,6 +66,7 @@ class Foods extends Component {
   }
 
   render() {
+    console.log("inne i foods", this.props.user);
     const {
       categories,
       pageSize,
@@ -94,9 +95,11 @@ class Foods extends Component {
             />
           </div>
           <div className="col">
-            <Link to="foods/new" className="btn btn-primary mb-3">
-              New Food
-            </Link>
+            {this.props.user && (
+              <Link to="foods/new" className="btn btn-primary mb-3">
+                New Food
+              </Link>
+            )}
 
             <p>Showing {filteredCount} foods in the database</p>
             <SearchBox value={searchQuery} onChange={this.handleSearch} />

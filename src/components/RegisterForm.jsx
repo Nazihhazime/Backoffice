@@ -1,6 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import Joi, { options } from "joi";
+import user from "../Services/userService";
 import Form from "./Common/Form";
 
 class RegisterForm extends Form {
@@ -18,8 +19,15 @@ class RegisterForm extends Form {
     name: Joi.string().allow("").label("Name"),
   });
 
-  doSubmit = () => {
-    console.log("Register");
+  doSubmit = async () => {
+    try {
+      await user.register(this.state.data);
+      window.location = "/";
+    } catch (error) {
+      if (error.response.status === 400) {
+        const errors = { username: error.response.data };
+      }
+    }
   };
 
   render() {
