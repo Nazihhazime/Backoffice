@@ -7,6 +7,7 @@ async function register(user) {
     email: user.username,
     password: user.password,
   };
+
   const { headers } = await http.post("http://localhost:8000/api/users", data);
   auth.loginWithJwt(headers["x-auth-token"]);
 }

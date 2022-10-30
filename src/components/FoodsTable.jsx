@@ -34,7 +34,7 @@ class FoodsTable extends Component {
 
     const user = auth.getCurrentUser();
 
-    if (user && user.isAdmin)
+    if (user?.isAdmin)
       this.columns.push({
         key: "delete",
         content: (food) => (
